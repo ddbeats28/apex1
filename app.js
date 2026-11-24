@@ -1,4 +1,5 @@
-const STORAGE_KEY = "apexdrip_products_v2";
+const STORAGE_KEY = "lootverse_products_v1";
+const LEGACY_KEYS = ["apexdrip_products_v2", "apexdrip_products_v1"];
 const categories = ["Gaming", "Technology", "Gadgets", "Lifestyle", "Deals", "Software"];
 const brands = [
   {name:"Kreo",category:"Gaming",region:"India",url:"https://kreo-tech.com/",tag:"Gaming gear"},
@@ -27,6 +28,48 @@ const brands = [
   {name:"JBL",category:"Lifestyle",region:"US",url:"https://www.jbl.com/",tag:"Portable audio"}
 ];
 const starterProducts = [
+ {id:"n1",name:"Swarm 75 Phantom White Wireless Keyboard",brand:"Kreo",category:"Gaming",type:"Keyboards",badge:"NEW DROP",description:"A 75% wireless mechanical keyboard with a clean white build for compact battle stations.",image:"assets/shop-kreo-swarm75.webp",affiliateUrl:"https://kreo-tech.com/products/swarm-75-phantom-white-wireless-gaming-keyboard",featured:true},
+ {id:"n2",name:"Hawk Pro Wireless Gaming Mouse",brand:"Kreo",category:"Gaming",type:"Mice",badge:"GAMER PICK",description:"A lightweight wireless mouse built for quick flicks and long sessions.",image:"assets/shop-kreo-hawk.webp",affiliateUrl:"https://kreo-tech.com/products/hawk-pro-black-wireless-gaming-mouse",featured:true},
+ {id:"n3",name:"Surge Pro Wireless Controller",brand:"Kreo",category:"Gaming",type:"Controllers",badge:"TMR STICKS",description:"A wireless PC controller with TMR joysticks and RGB accents.",image:"assets/shop-kreo-surge.webp",affiliateUrl:"https://kreo-tech.com/products/surge-pro-wireless-gaming-controller-with-tmr-joysticks",featured:false},
+ {id:"n4",name:"Terra XXL Deskmat — System of the Sun",brand:"Kreo",category:"Gaming",type:"Desk Setup",badge:"DESK UPGRADE",description:"An extra-large deskmat with a planetary print to anchor your setup.",image:"assets/shop-kreo-terra.webp",affiliateUrl:"https://kreo-tech.com/products/terra-xxl-deskmat-system-of-the-sun",featured:false},
+ {id:"n5",name:"Razer DeathAdder V3 Pro",brand:"Razer",category:"Gaming",type:"Mice",badge:"ESPORTS GRADE",description:"An ultra-light ergonomic wireless mouse made for competitive play.",image:"assets/shop-rz-deathadder.webp",affiliateUrl:"https://www.razer.com/ap-en/gaming-mice/razer-deathadder-v3-pro",featured:true},
+ {id:"n6",name:"Razer BlackWidow V4 Pro",brand:"Razer",category:"Gaming",type:"Keyboards",badge:"RGB FLAGSHIP",description:"A full-size mechanical keyboard with a command dial, macro keys and underglow.",image:"assets/shop-rz-blackwidow.webp",affiliateUrl:"https://www.razer.com/ap-en/gaming-keyboards/razer-blackwidow-v4-pro",featured:true},
+ {id:"n7",name:"Razer BlackShark V2 Pro",brand:"Razer",category:"Gaming",type:"Headsets",badge:"PRO AUDIO",description:"A wireless esports headset tuned for clear footsteps and comms.",image:"assets/shop-rz-blackshark.webp",affiliateUrl:"https://www.razer.com/ap-en/gaming-headsets/razer-blackshark-v2-pro",featured:false},
+ {id:"n8",name:"Razer Kraken V4 Pro",brand:"Razer",category:"Gaming",type:"Headsets",badge:"OLED HUB",description:"A wireless RGB headset with an OLED control hub for quick audio tweaks.",image:"assets/shop-rz-kraken.webp",affiliateUrl:"https://www.razer.com/ap-en/gaming-headsets/razer-kraken-v4-pro",featured:false},
+ {id:"n9",name:"Razer Basilisk V3",brand:"Razer",category:"Gaming",type:"Mice",badge:"CUSTOM RGB",description:"A customisable RGB mouse with a tilt scroll wheel and programmable buttons.",image:"assets/shop-rz-basilisk.webp",affiliateUrl:"https://www.razer.com/ap-en/gaming-mice/razer-basilisk-v3",featured:false},
+ {id:"n10",name:"Razer Wolverine V3 Pro",brand:"Razer",category:"Gaming",type:"Controllers",badge:"XBOX & PC",description:"A wireless esports controller for Xbox and PC with remappable controls.",image:"assets/shop-rz-wolverine.webp",affiliateUrl:"https://www.razer.com/ap-en/console-controllers/razer-wolverine-v3-pro",featured:true},
+ {id:"n11",name:"APEX-HIVE K774 PRO Keyboard",brand:"Redragon",category:"Gaming",type:"Keyboards",badge:"HOT PICK",description:"A compact mechanical keyboard with per-key RGB and a volume knob.",image:"assets/shop-rd-k774.webp",affiliateUrl:"https://redragonshop.com/products/apex-hive-k774",featured:false},
+ {id:"n12",name:"NUBULA K769 HE Rapid Trigger Keyboard",brand:"Redragon",category:"Gaming",type:"Keyboards",badge:"RAPID TRIGGER",description:"A Hall-effect magnetic keyboard with rapid trigger for fast inputs.",image:"assets/shop-rd-k769.webp",affiliateUrl:"https://redragonshop.com/products/nubula-k769-he-rapid-trigger-gaming-keyboard",featured:false},
+ {id:"n13",name:"CROSSFIRE H893 Gaming Headset",brand:"Redragon",category:"Gaming",type:"Headsets",badge:"SQUAD COMMS",description:"An over-ear gaming headset with a detachable boom mic.",image:"assets/shop-rd-h893.webp",affiliateUrl:"https://redragonshop.com/products/crossfire-h893",featured:false},
+ {id:"n14",name:"G902 Display Gaming Controller",brand:"Redragon",category:"Gaming",type:"Controllers",badge:"BUILT-IN SCREEN",description:"A gaming controller with a built-in display and RGB lighting.",image:"assets/shop-rd-g902.webp",affiliateUrl:"https://redragonshop.com/products/g902",featured:false},
+ {id:"n15",name:"PG1M Pro Glass Gaming Mouse Pad",brand:"Redragon",category:"Gaming",type:"Desk Setup",badge:"SPEED SURFACE",description:"A glass mouse pad for smooth, consistent glide.",image:"assets/shop-rd-pg1m.webp",affiliateUrl:"https://redragonshop.com/products/pg1m-pro-glass-gaming-mouse-pad",featured:false},
+ {id:"n16",name:"Logitech G502 X Plus",brand:"Logitech",category:"Gaming",type:"Mice",badge:"LIGHTFORCE",description:"A wireless RGB gaming mouse with hybrid optical-mechanical switches.",image:"assets/shop-lg-g502.webp",affiliateUrl:"https://www.logitechg.com/en-in/products/gaming-mice/g502-x-plus-wireless-lightforce.html",featured:true},
+ {id:"n17",name:"Logitech G515 TKL Wireless Keyboard",brand:"Logitech",category:"Gaming",type:"Keyboards",badge:"LOW PROFILE",description:"A slim tenkeyless wireless gaming keyboard with low-profile switches.",image:"assets/shop-lg-g515.webp",affiliateUrl:"https://www.logitechg.com/en-in/products/gaming-keyboards/g515-tkl-wireless-keyboard.html",featured:false},
+ {id:"n18",name:"Logitech G435 Wireless Headset",brand:"Logitech",category:"Gaming",type:"Headsets",badge:"FEATHERWEIGHT",description:"A light wireless and Bluetooth gaming headset for all-day comfort.",image:"assets/shop-lg-g435.webp",affiliateUrl:"https://www.logitechg.com/en-in/products/gaming-audio/g435-wireless-bluetooth-gaming-headset.html",featured:false},
+ {id:"n19",name:"Secretlab TITAN Evo Gaming Chair",brand:"Secretlab",category:"Gaming",type:"Chairs & Desks",badge:"ERGO THRONE",description:"An ergonomic gaming chair with built-in lumbar support and 4D armrests.",image:"assets/shop-sl-titan.webp",affiliateUrl:"https://secretlab.co/products/titan-evo-24-r-sw-0107",featured:true},
+ {id:"n20",name:"Secretlab MAGPAD Desk Mat",brand:"Secretlab",category:"Gaming",type:"Desk Setup",badge:"CLEAN DESK",description:"A magnetic desk mat that keeps a large setup tidy.",image:"assets/shop-sl-magpad.webp",affiliateUrl:"https://secretlab.co/products/magpad-desk-mat-15",featured:false},
+ {id:"n21",name:"Secretlab ErgoArch Monitor Light Bar",brand:"Secretlab",category:"Technology",type:"Desk Lighting",badge:"GLARE FREE",description:"A monitor light bar add-on that lights the desk without screen glare.",image:"assets/shop-sl-lightbar.webp",affiliateUrl:"https://secretlab.co/products/ergoarch-monitor-light-bar",featured:false},
+ {id:"n22",name:"IMPACTSPHERE GS818 Speakers",brand:"Redragon",category:"Technology",type:"Audio",badge:"DESK AUDIO",description:"Wood-finish desktop speakers for gaming and music.",image:"assets/shop-rd-gs818.webp",affiliateUrl:"https://redragonshop.com/products/impactsphere-gs818",featured:false},
+ {id:"n23",name:"Logitech MX Master 3S",brand:"Logitech",category:"Technology",type:"Productivity",badge:"WORK FLOW",description:"A quiet performance mouse with an 8K sensor and MagSpeed scrolling.",image:"assets/shop-lg-mx3s.webp",affiliateUrl:"https://www.logitech.com/en-in/products/mice/mx-master-3s.html",featured:true},
+ {id:"n24",name:"Logitech MX Keys S",brand:"Logitech",category:"Technology",type:"Productivity",badge:"TYPE SMARTER",description:"A low-profile wireless keyboard with smart backlighting.",image:"assets/shop-lg-mxkeys.webp",affiliateUrl:"https://www.logitech.com/en-in/products/keyboards/mx-keys-s.html",featured:false},
+ {id:"n25",name:"Logitech Brio 500 Webcam",brand:"Logitech",category:"Technology",type:"Webcams",badge:"CALL READY",description:"A 1080p HDR webcam with Show Mode for desk demos.",image:"assets/shop-lg-brio.webp",affiliateUrl:"https://www.logitech.com/en-in/products/webcams/brio-500-webcam.html",featured:false},
+ {id:"n26",name:"Obsidian 15.6\" Portable Monitor",brand:"Kreo",category:"Technology",type:"Monitors",badge:"SECOND SCREEN",description:"A slim, lightweight FHD portable monitor for travel and dual-screen setups.",image:"assets/shop-kreo-obsidian.webp",affiliateUrl:"https://kreo-tech.com/products/obsidian-15-6-fhd-slim-lightweight-portable-monitor-1",featured:true},
+ {id:"n27",name:"Axis Ergonomic Wireless Mouse",brand:"Kreo",category:"Technology",type:"Productivity",badge:"ERGO PICK",description:"An ergonomic wireless mouse with dual scroll wheels.",image:"assets/shop-kreo-axis.webp",affiliateUrl:"https://kreo-tech.com/products/axis-ergonomic-dual-scroll-rgb-mouse",featured:false},
+ {id:"n28",name:"Glace Laptop Cooler",brand:"Kreo",category:"Gadgets",type:"Laptop Coolers",badge:"STAY COOL",description:"A laptop cooling pad with RGB fans for long gaming sessions.",image:"assets/shop-kreo-glace.webp",affiliateUrl:"https://kreo-tech.com/products/glace-laptop-cooler",featured:true},
+ {id:"n29",name:"Owl Lite FHD Webcam",brand:"Kreo",category:"Gadgets",type:"Creator Gear",badge:"STREAM READY",description:"A compact full-HD webcam for streams, classes and calls.",image:"assets/shop-kreo-owl.webp",affiliateUrl:"https://kreo-tech.com/products/owl-lite-white-fhd-webcam",featured:false},
+ {id:"n30",name:"Slab Key Light",brand:"Kreo",category:"Gadgets",type:"Creator Gear",badge:"GLOW UP",description:"A desk key light for brighter, cleaner streams and video calls.",image:"assets/shop-kreo-slab.webp",affiliateUrl:"https://kreo-tech.com/products/slab-key-light-white",featured:false},
+ {id:"n31",name:"Elementor Website Builder",brand:"Elementor",category:"Software",type:"Website Builders",badge:"BUILD FAST",description:"A drag-and-drop builder for creating and managing WordPress sites.",image:"assets/shop-elementor-hero.webp",affiliateUrl:"https://elementor.com/",featured:true},
+ {id:"n32",name:"Elementor AI Site Planner",brand:"Elementor",category:"Software",type:"Website Builders",badge:"AI POWERED",description:"AI tools that help plan, design and launch a site faster.",image:"assets/shop-elementor-start.webp",affiliateUrl:"https://elementor.com/",featured:false},
+ {id:"n33",name:"Hostinger Web Hosting",brand:"Hostinger",category:"Software",type:"Hosting",badge:"GO LIVE",description:"Web hosting plans with a free domain option and easy site setup.",image:"assets/shop-host-og.webp",affiliateUrl:"https://www.hostinger.com/in/web-hosting",featured:true},
+ {id:"n34",name:"Bitdefender Total Security",brand:"Bitdefender",category:"Software",type:"Security",badge:"STAY SAFE",description:"Multi-device protection against malware, ransomware and scams.",image:"assets/shop-bd-home.webp",affiliateUrl:"https://www.bitdefender.com/en-in/consumer/total-security",featured:true},
+ {id:"n35",name:"Canva Pro",brand:"Canva",category:"Software",type:"Design",badge:"DESIGN ANYTHING",description:"Premium templates, brand kits and AI design tools for creators.",image:"assets/design-apps.webp",affiliateUrl:"https://www.canva.com/pro/",featured:false},
+ {id:"n36",name:"Adobe Creative Cloud",brand:"Adobe",category:"Software",type:"Design",badge:"CREATOR SUITE",description:"Photoshop, Premiere Pro, Illustrator and more in one plan.",image:"assets/creator-gear.webp",affiliateUrl:"https://www.adobe.com/in/creativecloud.html",featured:false},
+ {id:"n37",name:"PUMA Fade LS Y2K Sneakers",brand:"PUMA",category:"Lifestyle",type:"Sneakers",badge:"Y2K DROP",description:"Chunky, retro-runner sneakers with a Y2K-inspired silhouette.",image:"assets/shop-puma-fadey2k.webp",affiliateUrl:"https://in.puma.com/in/en/pd/fade-ls-y2k-sneakers/407000?swatch=02",featured:true},
+ {id:"n38",name:"PUMA Fade Sneakers",brand:"PUMA",category:"Lifestyle",type:"Sneakers",badge:"STREET READY",description:"Everyday sneakers with a layered, sporty upper.",image:"assets/shop-puma-fade.webp",affiliateUrl:"https://in.puma.com/in/en/pd/puma-fade-sneakers/406203?swatch=04",featured:false},
+ {id:"n39",name:"Originals & Streetwear",brand:"Adidas",category:"Lifestyle",type:"Apparel",badge:"ICONIC STYLE",description:"Shop classic three-stripe sneakers, track tops and streetwear.",image:"assets/streetwear.webp",affiliateUrl:"https://www.adidas.co.in/",featured:false},
+ {id:"n40",name:"Luxury Sneakers & Designer Fashion",brand:"FARFETCH",category:"Lifestyle",type:"Luxury",badge:"LUXE EDIT",description:"Discover designer sneakers, bags and fashion from global boutiques.",image:"assets/fashion.webp",affiliateUrl:"https://www.farfetch.com/in/",featured:false},
+ {id:"n41",name:"Gaming Laptops & Monitors",brand:"Acer",category:"Technology",type:"Laptops",badge:"ACER STORE",description:"Browse Predator and Nitro gaming laptops and monitors at Acer India.",image:"assets/laptop.webp",affiliateUrl:"https://store.acer.com/en-in/",featured:false},
+ {id:"n42",name:"Hot PC Game Deals",brand:"Green Man Gaming",category:"Deals",type:"Game Offers",badge:"HOT DEALS",description:"Check current discounts on PC games, pre-orders and bundles.",image:"assets/pc-games.webp",affiliateUrl:"https://www.greenmangaming.com/",featured:false},
  {id:"a15",name:"PlayStation 5 Consoles",brand:"PlayStation Direct",category:"Gaming",type:"Consoles",badge:"CONSOLE PICK",description:"Browse PS5 systems and bundles for your living-room setup.",image:"assets/console.webp",affiliateUrl:"https://direct.playstation.com/en-us/hardware/ps5",featured:true},
  {id:"a4",name:"Gaming Laptop Collection",brand:"Acer",retailer:"Acer Store",category:"Gaming",type:"Gaming Laptops",badge:"PC GAMING",description:"Browse portable gaming rigs at the official Acer India store.",image:"assets/laptop.webp",affiliateUrl:"https://store.acer.com/en-in/",featured:true},
  {id:"a1",name:"RGB Mechanical Gaming Keyboards",brand:"Redragon",category:"Gaming",type:"Accessories",badge:"RGB PICK",description:"Find a mechanical keyboard with customizable lighting for your desk.",image:"assets/keyboard.webp",affiliateUrl:"https://redragonshop.com/",featured:true},
@@ -51,12 +94,13 @@ const starterProducts = [
  {id:"a14",name:"Digital Games & Game Keys",brand:"Kinguin",category:"Deals",price:null,oldPrice:null,discount:0,badge:"DIGITAL FINDS",description:"Explore digital game listings. Review seller, region and activation details before purchase.",image:"assets/game-keys.webp",affiliateUrl:"https://www.kinguin.net/",featured:false}
 ];
 const pages = {
-  gaming: {title:"Gaming", highlight:"Gear", category:"Gaming", eyebrow:"01 / THE GAMING EDIT", icon:"game", image:"assets/gaming-setup.webp", description:"Shop consoles, RGB accessories, and gaming laptops for your next setup."},
+  gaming: {title:"Gaming", highlight:"Gear", category:"Gaming", eyebrow:"01 / THE GAMING EDIT", icon:"game", image:"assets/gaming-setup.webp", description:"Shop keyboards, mice, headsets, controllers, chairs and consoles from Razer, Kreo, Redragon, Logitech, Secretlab and more."},
   technology: {title:"Technology", category:"Technology", eyebrow:"02 / THE TECH EDIT", icon:"screen", image:"assets/phones.webp", description:"Find laptops, smartphones, audio, and electronics across official stores and retailers."},
   gadgets: {title:"Smart", highlight:"Gadgets", label:"Gadgets", category:"Gadgets", eyebrow:"03 / THE GADGET EDIT", icon:"box", image:"assets/power.webp", description:"Find useful upgrades, from portable chargers to handy creator gear."},
   lifestyle: {title:"Lifestyle", highlight:"Finds", label:"Lifestyle", category:"Lifestyle", eyebrow:"04 / THE EVERYDAY EDIT", icon:"spark", image:"assets/speaker.webp", description:"Discover everyday essentials, sneakers, and gear you’ll actually use."},
-  deals: {title:"Best", highlight:"Deals", label:"Best Deals", category:"Deals", eyebrow:"05 / THE DEAL RADAR", icon:"bolt", image:"assets/laptop.webp", description:"Find retailer sales and special offers. Confirm prices and availability before you buy."},
-  discover: {title:"Discover", highlight:"More", label:"Discover", eyebrow:"06 / THE FULL CATALOG", icon:"compass", description:"Browse finds from multiple shopping platforms and independent brand stores in one place."}
+  software: {title:"Software", highlight:"& Tools", label:"Software", category:"Software", eyebrow:"05 / THE CREATOR STACK", icon:"laptop", image:"assets/shop-elementor-hero.webp", description:"Build, design and protect with hosting, website builders, creative apps and security tools."},
+  deals: {title:"Best", highlight:"Deals", label:"Best Deals", category:"Deals", eyebrow:"06 / THE DEAL RADAR", icon:"bolt", image:"assets/laptop.webp", description:"Find retailer sales and special offers. Confirm prices and availability before you buy."},
+  discover: {title:"Discover", highlight:"More", label:"Discover", eyebrow:"07 / THE FULL CATALOG", icon:"compass", description:"Browse finds from multiple shopping platforms and independent brand stores in one place."}
 };
 const defaultTypes = {a2:"Accessories",a3:"Accessories",a10:"Sneakers",a11:"Apparel",a12:"Apparel",a13:"Game Offers",a14:"Game Offers"};
 const fallbackImage = "assets/product-fallback.svg";
@@ -73,9 +117,16 @@ function normalizeProducts(list) {
 }
 function loadProducts() {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY) ?? localStorage.getItem("apexdrip_products_v1");
-    const list = saved ? JSON.parse(saved) : starterProducts;
-    return normalizeProducts(Array.isArray(list) ? list : starterProducts);
+    const current = localStorage.getItem(STORAGE_KEY);
+    const legacy = current ? null : LEGACY_KEYS.map(key => localStorage.getItem(key)).find(Boolean);
+    let list = JSON.parse(current ?? legacy ?? "null");
+    if (!Array.isArray(list)) return normalizeProducts(starterProducts);
+    if (legacy) {
+      // Bring newly added catalog items into catalogs saved before the rebrand.
+      const savedIds = new Set(list.map(product => product?.id));
+      list = [...starterProducts.filter(product => product.id.startsWith("n") && !savedIds.has(product.id)), ...list];
+    }
+    return normalizeProducts(list);
   } catch {
     return normalizeProducts(starterProducts);
   }
@@ -138,14 +189,21 @@ function productPrice(product) {
   return `<span class="price ${price === "Check retailer" ? "price-check" : ""}">${escapeHtml(price)}</span>${oldPrice && oldPrice !== "Check retailer" ? `<span class="old-price">${escapeHtml(oldPrice)}</span>` : ""}`;
 }
 function productCard(product) {
-  const badge = product.discount > 0 && product.discount <= 100 ? `${Number(product.discount)}% off` : product.badge || "Apex Select";
+  const badge = product.discount > 0 && product.discount <= 100 ? `${Number(product.discount)}% off` : product.badge || "Loot Select";
   const id = escapeHtml(product.id);
   const name = escapeHtml(product.name);
   return `<article class="product-card"><button type="button" class="product-image" data-view="${id}" aria-label="${escapeHtml(badge)}: View ${name}">${productImage(product)}<span class="product-badge ${isDeal(product) ? "badge-deal" : product.featured ? "badge-featured" : ""}">${escapeHtml(badge)}</span></button><div class="product-info"><div class="product-brand">${escapeHtml(retailerFor(product) || labelFor(product.category))}</div><h3 class="product-name">${name}</h3><p class="product-desc">${escapeHtml(product.description)}</p><div class="price-row">${productPrice(product)}</div><div class="product-bottom"><button class="view-product" type="button" data-view="${id}" aria-label="Details for ${name}">DETAILS ${icon("arrow")}</button>${retailerLink(product, "VISIT STORE", "buy-link")}</div></div></article>`;
 }
 const byFeatured = (first, second) => Number(Boolean(second.featured)) - Number(Boolean(first.featured));
+function mixCategories(list) {
+  const groups = [...list.reduce((map, product) => map.set(product.category, [...(map.get(product.category) || []), product]), new Map()).values()];
+  const mixed = [];
+  for (let index = 0; mixed.length < list.length; index++) groups.forEach(group => group[index] && mixed.push(group[index]));
+  return mixed;
+}
 function renderHomePicks() {
-  const picks = products.filter(product => homeFilter === "All" ? !isDeal(product) : product.category === homeFilter).sort(byFeatured).slice(0, 4);
+  const pool = products.filter(product => homeFilter === "All" ? !isDeal(product) : product.category === homeFilter).sort(byFeatured);
+  const picks = homeFilter === "All" ? mixCategories(pool).slice(0, 8) : pool.slice(0, 8);
   $("#productGrid").innerHTML = picks.map(productCard).join("");
   $("#homeEmpty").hidden = picks.length > 0;
 }
@@ -209,7 +267,7 @@ function renderProducts() {
 function openProduct(id) {
   const product = products.find(item => item.id === id);
   if (!product) return;
-  $("#modalContent").innerHTML = `<figure class="modal-image">${productImage(product, false)}<figcaption>Illustrative product photo</figcaption></figure><div class="modal-copy"><div class="eyebrow">${escapeHtml(labelFor(product.category))} / ${escapeHtml(retailerFor(product))}</div><h2 id="modalTitle">${escapeHtml(product.name)}</h2><p>${escapeHtml(product.description)}</p><div class="price-row">${productPrice(product)}</div><p class="disclosure">Prices, stock, and delivery can vary by region. Confirm details on the retailer’s site. APEXDRIP may earn a commission from qualifying purchases.</p>${retailerLink(product, "VISIT RETAILER", "btn btn-primary")}</div>`;
+  $("#modalContent").innerHTML = `<figure class="modal-image">${productImage(product, false)}<figcaption>${String(product.image).startsWith("assets/shop-") ? `Image: ${escapeHtml(retailerFor(product))}` : "Illustrative product photo"}</figcaption></figure><div class="modal-copy"><div class="eyebrow">${escapeHtml(labelFor(product.category))} / ${escapeHtml(retailerFor(product))}</div><h2 id="modalTitle">${escapeHtml(product.name)}</h2><p>${escapeHtml(product.description)}</p><div class="price-row">${productPrice(product)}</div><p class="disclosure">Prices, stock, and delivery can vary by region. Confirm details on the retailer’s site. LOOTVERSE may earn a commission from qualifying purchases.</p>${retailerLink(product, "VISIT RETAILER", "btn btn-primary")}</div>`;
   $("#productModal").showModal();
 }
 /* Local-only admin: edits are stored in this browser. Use a secure hosted database/auth system for shared live publishing. */
@@ -251,7 +309,7 @@ function renderProductForm(id) {
     showAdmin("products");
   };
 }
-function exportProducts(){const blob=new Blob([JSON.stringify(products,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="apexdrip-products.json";a.click();URL.revokeObjectURL(url)}
+function exportProducts(){const blob=new Blob([JSON.stringify(products,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="lootverse-products.json";a.click();URL.revokeObjectURL(url)}
 function importProducts(event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -313,7 +371,7 @@ function route(focusHeading = false) {
     else link.removeAttribute("aria-current");
   });
   setMenu(false);
-  document.title = page ? `${page.label || page.title} | APEXDRIP` : "APEXDRIP — Gaming, Tech & Everyday Finds";
+  document.title = page ? `${page.label || page.title} | LOOTVERSE` : "LOOTVERSE — Level Up Your Loot | Gaming Gear, Tech & Drip";
   if (page) renderCollection(page, new URLSearchParams(query));
   const anchors = {brands:"brands", categories:"categories", trending:"trending", "featured-deals":"featured-deals", "all-products":"catalogTitle"};
   if (Object.hasOwn(anchors, hash)) document.getElementById(anchors[hash]).scrollIntoView();
@@ -387,7 +445,7 @@ $$(".admin-tab").forEach(button => button.addEventListener("click", () => { edit
 $("#adminAddBtn").onclick = () => { editingId = null; showAdmin("add"); };
 $("#backToSite").onclick = () => { location.hash = "home"; };
 $("#year").textContent = new Date().getFullYear();
-renderChips($("#homeFilters"), ["All", "Gaming", "Technology", "Gadgets", "Lifestyle"], homeFilter, value => { homeFilter = value; renderHomePicks(); });
+renderChips($("#homeFilters"), ["All", "Gaming", "Technology", "Gadgets", "Lifestyle", "Software"], homeFilter, value => { homeFilter = value; renderHomePicks(); });
 renderDepartments();
 renderBrands();
 renderProducts();

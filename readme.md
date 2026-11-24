@@ -1,10 +1,11 @@
-# APEXDRIP STORE
+# LOOTVERSE STORE
 
 A static, affiliate-first product discovery website for India and international visitors.
 
 ## Included
-- A neon gaming Home with editorial trending picks and featured retailer offers
-- Dedicated Gaming, Technology, Gadgets, Lifestyle, Best Deals and Discover views
+- A neon gaming Home ("Level up your loot") with mixed-category trending picks and featured retailer offers
+- 60+ catalog entries with product photos sourced from Kreo, Razer, Redragon, Logitech, Secretlab, PUMA, Elementor, Hostinger and Bitdefender (`assets/shop-*.webp`)
+- Dedicated Gaming, Technology, Gadgets, Lifestyle, Software, Best Deals and Discover views
 - Discover catalog with store filters, links to official retailers and a retailer directory
 - Product cards, catalog-wide search, subcategory filters, sorting and product details
 - Responsive desktop and mobile styling
