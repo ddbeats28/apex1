@@ -51,12 +51,12 @@ const starterProducts = [
  {id:"a14",name:"Digital Games & Game Keys",brand:"Kinguin",category:"Deals",price:null,oldPrice:null,discount:0,badge:"DIGITAL FINDS",description:"Explore digital game listings. Review seller, region and activation details before purchase.",image:"assets/game-keys.webp",affiliateUrl:"https://www.kinguin.net/",featured:false}
 ];
 const pages = {
-  gaming: {title:"Gaming", highlight:"Gear", category:"Gaming", eyebrow:"01 / THE GAMING EDIT", icon:"game", image:"assets/gaming-setup.webp", description:"Shop consoles, RGB accessories, and gaming laptops for your next setup."},
-  technology: {title:"Technology", category:"Technology", eyebrow:"02 / THE TECH EDIT", icon:"screen", image:"assets/phones.webp", description:"Find laptops, smartphones, audio, and electronics across official stores and retailers."},
-  gadgets: {title:"Smart", highlight:"Gadgets", label:"Gadgets", category:"Gadgets", eyebrow:"03 / THE GADGET EDIT", icon:"box", image:"assets/power.webp", description:"Find useful upgrades, from portable chargers to handy creator gear."},
-  lifestyle: {title:"Lifestyle", highlight:"Finds", label:"Lifestyle", category:"Lifestyle", eyebrow:"04 / THE EVERYDAY EDIT", icon:"spark", image:"assets/speaker.webp", description:"Discover everyday essentials, sneakers, and gear you’ll actually use."},
-  deals: {title:"Best", highlight:"Deals", label:"Best Deals", category:"Deals", eyebrow:"05 / THE DEAL RADAR", icon:"bolt", image:"assets/laptop.webp", description:"Find retailer sales and special offers. Confirm prices and availability before you buy."},
-  discover: {title:"Discover", highlight:"More", label:"Discover", eyebrow:"06 / THE FULL CATALOG", icon:"compass", description:"Browse finds from multiple shopping platforms and independent brand stores in one place."}
+  gaming: {title:"Gaming", highlight:"Gear", category:"Gaming", eyebrow:"01 / THE GAMING EDIT", icon:"game", images:["assets/gaming-setup.webp","assets/console.webp","assets/keyboard.webp","assets/mouse.webp","assets/gaming-chair.webp"], description:"Shop consoles, RGB accessories, and gaming laptops for your next setup."},
+  technology: {title:"Technology", category:"Technology", eyebrow:"02 / THE TECH EDIT", icon:"screen", images:["assets/phones.webp","assets/notebook.webp","assets/headphones.webp","assets/laptop.webp","assets/cybersecurity.webp"], description:"Find laptops, smartphones, audio, and electronics across official stores and retailers."},
+  gadgets: {title:"Smart", highlight:"Gadgets", label:"Gadgets", category:"Gadgets", eyebrow:"03 / THE GADGET EDIT", icon:"box", images:["assets/power.webp","assets/creator-gear.webp","assets/speaker.webp","assets/headphones.webp"], description:"Find useful upgrades, from portable chargers to handy creator gear."},
+  lifestyle: {title:"Lifestyle", highlight:"Finds", label:"Lifestyle", category:"Lifestyle", eyebrow:"04 / THE EVERYDAY EDIT", icon:"spark", images:["assets/streetwear.webp","assets/sneakers.webp","assets/fashion.webp","assets/speaker.webp"], description:"Discover everyday essentials, sneakers, and gear you’ll actually use."},
+  deals: {title:"Best", highlight:"Deals", label:"Best Deals", category:"Deals", eyebrow:"05 / THE DEAL RADAR", icon:"bolt", images:["assets/pc-games.webp","assets/game-keys.webp","assets/laptop.webp","assets/sneakers.webp"], description:"Find retailer sales and special offers. Confirm prices and availability before you buy."},
+  discover: {title:"Discover", highlight:"More", label:"Discover", eyebrow:"06 / THE FULL CATALOG", icon:"compass", images:["assets/gaming-setup.webp","assets/design-apps.webp","assets/web-tools.webp","assets/streetwear.webp","assets/phones.webp"], description:"Browse finds from multiple shopping platforms and independent brand stores in one place."}
 };
 const defaultTypes = {a2:"Accessories",a3:"Accessories",a10:"Sneakers",a11:"Apparel",a12:"Apparel",a13:"Game Offers",a14:"Game Offers"};
 const fallbackImage = "assets/product-fallback.svg";
@@ -82,8 +82,8 @@ function loadProducts() {
 }
 let products = loadProducts();
 let editingId = null;
-let currentPage = "home";
-let homeFilter = "All";
+let currentPage = "hub";
+let hubFilter = "All";
 let catalogFilter = "All";
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const escapeHtml=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -113,6 +113,48 @@ function imageUrl(value) {
 }
 const productImage = (product, lazy = true) => `<img ${lazy ? 'loading="lazy" ' : ""}src="${escapeHtml(imageUrl(product.image))}" alt="" width="640" height="420">`;
 function saveProducts(){localStorage.setItem(STORAGE_KEY,JSON.stringify(products));renderProducts();renderAdminOverview()}
+/* Motion: crossfading Ken Burns slideshows, scrolling photo strips and scroll reveals */
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const slideTimers = new WeakMap();
+function cycleSlides(host, onChange) {
+  clearInterval(slideTimers.get(host));
+  const slides = [...host.querySelectorAll("img")];
+  if (slides.length < 2 || reduceMotion) return;
+  let index = slides.findIndex(slide => slide.classList.contains("is-active"));
+  slideTimers.set(host, setInterval(() => {
+    if (document.hidden) return;
+    slides[index].classList.remove("is-active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("is-active");
+    onChange?.(index);
+  }, 4800));
+}
+function startSlides(host, images) {
+  host.innerHTML = images.map((src, index) => `<img class="${index === 0 ? "is-active" : ""}" src="${escapeHtml(imageUrl(src))}" alt="" width="640" height="420"${index ? ' loading="lazy"' : ""}>`).join("");
+  host.hidden = !images.length;
+  cycleSlides(host);
+}
+function renderStrip(host, images) {
+  const unique = [...new Set(images.map(imageUrl))].filter(src => src !== fallbackImage);
+  while (unique.length && unique.length < 8) unique.push(...unique.slice(0, 8 - unique.length));
+  const tiles = unique.map(src => `<span class="strip-tile"><img src="${escapeHtml(src)}" alt="" width="320" height="210" loading="lazy"></span>`).join("");
+  host.innerHTML = unique.length ? `<div class="strip-track">${tiles}${tiles}</div>` : "";
+}
+const revealObserver = "IntersectionObserver" in window && !reduceMotion ? new IntersectionObserver(entries => entries.forEach(entry => {
+  if (!entry.isIntersecting) return;
+  entry.target.classList.add("is-visible");
+  revealObserver.unobserve(entry.target);
+  setTimeout(() => entry.target.style.removeProperty("--delay"), 900);
+}), { rootMargin:"0px 0px -8% 0px" }) : null;
+function revealIn(host) {
+  if (!revealObserver) return;
+  host.querySelectorAll(".product-card, .department-card, .brand-tile, .deal-row").forEach((element, index) => {
+    if (element.classList.contains("reveal")) return;
+    element.classList.add("reveal");
+    element.style.setProperty("--delay", `${(index % 4) * 70}ms`);
+    revealObserver.observe(element);
+  });
+}
 function renderBrands() {
   $("#brandDirectory").innerHTML = brands.map(brand => `<a class="brand-tile" href="${escapeHtml(brand.url)}" target="_blank" rel="noopener noreferrer"><span class="brand-tile-name">${escapeHtml(brand.name)}</span><span class="brand-tile-tag">${escapeHtml(brand.tag)}</span><span class="brand-tile-region">${escapeHtml(brand.region)}</span>${icon("external")}</a>`).join("");
 }
@@ -144,14 +186,16 @@ function productCard(product) {
   return `<article class="product-card"><button type="button" class="product-image" data-view="${id}" aria-label="${escapeHtml(badge)}: View ${name}">${productImage(product)}<span class="product-badge ${isDeal(product) ? "badge-deal" : product.featured ? "badge-featured" : ""}">${escapeHtml(badge)}</span></button><div class="product-info"><div class="product-brand">${escapeHtml(retailerFor(product) || labelFor(product.category))}</div><h3 class="product-name">${name}</h3><p class="product-desc">${escapeHtml(product.description)}</p><div class="price-row">${productPrice(product)}</div><div class="product-bottom"><button class="view-product" type="button" data-view="${id}" aria-label="Details for ${name}">DETAILS ${icon("arrow")}</button>${retailerLink(product, "VISIT STORE", "buy-link")}</div></div></article>`;
 }
 const byFeatured = (first, second) => Number(Boolean(second.featured)) - Number(Boolean(first.featured));
-function renderHomePicks() {
-  const picks = products.filter(product => homeFilter === "All" ? !isDeal(product) : product.category === homeFilter).sort(byFeatured).slice(0, 4);
+function renderHubPicks() {
+  const picks = products.filter(product => hubFilter === "All" ? !isDeal(product) : product.category === hubFilter).sort(byFeatured).slice(0, 4);
   $("#productGrid").innerHTML = picks.map(productCard).join("");
-  $("#homeEmpty").hidden = picks.length > 0;
+  revealIn($("#productGrid"));
+  $("#hubEmpty").hidden = picks.length > 0;
 }
 function renderFeaturedDeals() {
   const picks = products.filter(isDeal).sort(byFeatured).slice(0, 3);
   $("#featuredDeals").innerHTML = picks.map(product => `<button class="deal-row" type="button" data-view="${escapeHtml(product.id)}">${productImage(product)}<span><strong>${escapeHtml(product.name)}</strong><small>${escapeHtml(retailerFor(product))}</small></span>${icon("arrow")}</button>`).join("") || '<p class="brand-note">No offers listed in this catalog yet.</p>';
+  revealIn($("#featuredDeals"));
 }
 function collectionProducts() {
   if (currentPage === "deals") return products.filter(isDeal);
@@ -183,6 +227,7 @@ function renderCatalog() {
   };
   list.sort(sortFunctions[sort] || byFeatured);
   $("#allProductGrid").innerHTML = list.map(productCard).join("");
+  revealIn($("#allProductGrid"));
   $("#resultsCount").textContent = `${list.length} ${list.length === 1 ? "find" : "finds"}`;
   $("#emptyState").hidden = list.length > 0;
 }
@@ -199,9 +244,9 @@ function updateCatalogControls() {
   renderChips($("#catalogFilters"), filters, catalogFilter, value => { catalogFilter = value; renderCatalog(); });
 }
 function renderProducts() {
-  renderHomePicks();
+  renderHubPicks();
   renderFeaturedDeals();
-  if (currentPage !== "home") {
+  if (currentPage !== "hub") {
     updateCatalogControls();
     renderCatalog();
   }
@@ -279,10 +324,8 @@ function renderCollection(page, options) {
   $("#collectionDescription").textContent = page.description;
   $("#catalogEyebrow").textContent = currentPage === "deals" ? "RETAILER SALES & DISCOUNTS" : "BROWSE THE COLLECTION";
   $("#catalogTitle").innerHTML = currentPage === "deals" ? "Explore <em>Offers</em>" : "Shop the <em>Catalog</em>";
-  const image = $("#collectionImage");
-  image.hidden = !page.image;
-  if (page.image) image.src = page.image;
-  else image.removeAttribute("src");
+  startSlides($("#collectionImage"), page.images || []);
+  renderStrip($("#collectionStrip"), [...(page.images || []), ...collectionProducts().map(product => product.image)]);
   $("#searchInput").value = options.get("q") || "";
   $("#sortSelect").value = "featured";
   $("#retailerSelect").value = "";
@@ -302,18 +345,18 @@ function route(focusHeading = false) {
     return;
   }
   if (!$("#adminPanel").classList.contains("hidden")) hideAdmin();
-  const aliases = {tech:"technology", "best-deals":"deals", "all-products":"discover", brands:"discover"};
+  const aliases = {home:"hub", tech:"technology", "best-deals":"deals", "all-products":"discover", brands:"discover"};
   const key = Object.hasOwn(aliases, hash) ? aliases[hash] : hash;
   const page = Object.hasOwn(pages, key) ? pages[key] : null;
-  currentPage = page ? key : "home";
-  $("#homePage").hidden = Boolean(page);
+  currentPage = page ? key : "hub";
+  $("#hubPage").hidden = Boolean(page);
   $("#collectionPage").hidden = !page;
   $$("#mainNav a").forEach(link => {
     if (link.dataset.page === currentPage) link.setAttribute("aria-current", "page");
     else link.removeAttribute("aria-current");
   });
   setMenu(false);
-  document.title = page ? `${page.label || page.title} | APEXDRIP` : "APEXDRIP — Gaming, Tech & Everyday Finds";
+  document.title = page ? `${page.label || page.title} | APEXDRIP` : "THE HUB | APEXDRIP — Gaming, Tech & Everyday Finds";
   if (page) renderCollection(page, new URLSearchParams(query));
   const anchors = {brands:"brands", categories:"categories", trending:"trending", "featured-deals":"featured-deals", "all-products":"catalogTitle"};
   if (Object.hasOwn(anchors, hash)) document.getElementById(anchors[hash]).scrollIntoView();
@@ -361,7 +404,7 @@ $("main").addEventListener("click", event => {
   if (trigger) openProduct(trigger.dataset.view);
 });
 $("#main-content").addEventListener("error", event => {
-  if (event.target.matches(".product-image img, .deal-row img") && event.target.getAttribute("src") !== fallbackImage) event.target.src = fallbackImage;
+  if (event.target.matches(".product-image img, .deal-row img, .strip-tile img, .collection-slides img") && event.target.getAttribute("src") !== fallbackImage) event.target.src = fallbackImage;
 }, true);
 $("#modalContent").addEventListener("error", event => {
   if (event.target.matches("img") && event.target.getAttribute("src") !== fallbackImage) event.target.src = fallbackImage;
@@ -385,11 +428,15 @@ $(".skip-link").addEventListener("click", event => {
 });
 $$(".admin-tab").forEach(button => button.addEventListener("click", () => { editingId = null; showAdmin(button.dataset.tab); }));
 $("#adminAddBtn").onclick = () => { editingId = null; showAdmin("add"); };
-$("#backToSite").onclick = () => { location.hash = "home"; };
+$("#backToSite").onclick = () => { location.hash = "hub"; };
 $("#year").textContent = new Date().getFullYear();
-renderChips($("#homeFilters"), ["All", "Gaming", "Technology", "Gadgets", "Lifestyle"], homeFilter, value => { homeFilter = value; renderHomePicks(); });
+renderChips($("#hubFilters"), ["All", "Gaming", "Technology", "Gadgets", "Lifestyle"], hubFilter, value => { hubFilter = value; renderHubPicks(); });
 renderDepartments();
 renderBrands();
+revealIn($("#departmentGrid"));
+revealIn($("#brandDirectory"));
+renderStrip($('[data-strip="hub"]'), starterProducts.map(product => product.image));
+cycleSlides($(".hero-slides"), index => { $("#heroCount").textContent = String(index + 1).padStart(2, "0"); });
 renderProducts();
 route();
 window.addEventListener("hashchange", () => route(true));
